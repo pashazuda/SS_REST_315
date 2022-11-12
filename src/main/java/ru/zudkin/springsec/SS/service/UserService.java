@@ -1,5 +1,6 @@
 package ru.zudkin.springsec.SS.service;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import ru.zudkin.springsec.SS.model.User;
 
 
@@ -16,4 +17,5 @@ public interface UserService {
     public void update(int id, User user);
 
     public void delete(int id);
+
 }

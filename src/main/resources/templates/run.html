@@ -11,5 +11,8 @@
         <h1 th:text="${msg}"></h1>
     </th:block>
 </div>
+<form th:action="@{/logout}" th:method="POST">
+    <input type="submit" value="Logout" />
+</form>
 </body>
 </html>
