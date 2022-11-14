@@ -3,7 +3,6 @@ package ru.zudkin.springsec.SS.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.HttpSecurityBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,27 +15,45 @@ import ru.zudkin.springsec.SS.service.UserDetailsServiceImpl;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl  userDetailsService;
+    private final SuccessUserHandler successUserHandler;
+
 
     @Autowired
-    public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, SuccessUserHandler successUserHandler) {
         this.userDetailsService = userDetailsService;
+        this.successUserHandler = successUserHandler;
     }
 
     // Настройка формы для логина, сам спрингСекуриту
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // авторизация
-        http.authorizeRequests()
-                .antMatchers("/login", "/login/register", "/error").permitAll()
-                        .anyRequest().authenticated();
-        // форма для логина
-        http.formLogin().loginPage("/login")
+        http
+                .authorizeRequests()
+                .antMatchers("/login")
+                .permitAll()
+                .antMatchers("/user/**").hasRole("USER")
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().authenticated()
+                .and().formLogin().loginPage("/login")
                 .loginProcessingUrl("/process_login")
-                .defaultSuccessUrl("/users", true)
-                .failureUrl("/login?error");
+                .successHandler(successUserHandler)
+                .failureUrl("/login?error")
+                .permitAll()
+                .and().logout()
+                .permitAll();
 
-        // Конфигурация логаута
-        http.logout().logoutUrl("/logout").logoutSuccessUrl("/login");
+//        // авторизация
+//        http.authorizeRequests()
+//                .antMatchers("/login", "/login/register", "/error").permitAll()
+//                        .anyRequest().authenticated();
+//        // форма для логина
+//        http.formLogin().loginPage("/login")
+//                .loginProcessingUrl("/process_login")
+//                .defaultSuccessUrl("/users", true)
+//                .failureUrl("/login?error");
+//
+//        // Конфигурация логаута
+//        http.logout().logoutUrl("/logout").logoutSuccessUrl("/login");
 
 
     }
@@ -51,5 +68,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
+//        return NoOpPasswordEncoder.getInstance();
     }
 }

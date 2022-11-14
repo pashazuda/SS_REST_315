@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>New User</title>
+  <title>Add New User</title>
 </head>
 <body>
 
-<form th:method="POST" th:action="@{/users}" th:object="${user}">
+<form th:method="POST" th:action="@{/admin}" th:object="${user}">
   <label for="firstName">Enter first name: </label>
   <input type="text" th:field="*{firstName}" id="firstName"/>
   <div style="color:red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">Name Error</div>
@@ -23,9 +23,17 @@
   <input type="text" th:field="*{email}" id="email"/>
   <div style="color:red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email Error</div>
   <br/>
+  <label for="password">Password</label>
+  <input type="password" th:field="*{password}" id="password"/>
+  <br/>
+  <select multiple th:field="*{roles}" id="roles">
+    <option th:each="role : ${roles}" th:value="${role.getId()}" th:text="${role.getName()}">
+    </option>
+  </select>
+  <br/>
   <input type="submit" value="Add new user"/>
 </form>
-<a href="/users">
+<a href="/admin">
   <input type="submit" value="Show users"/>
 </a>
 

@@ -1,14 +1,18 @@
 package ru.zudkin.springsec.SS.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.util.Collection;
 import java.util.Set;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -33,7 +37,7 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
             cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "users_roles",
@@ -52,6 +56,16 @@ public class User {
         this.age = age;
         this.email = email;
         this.password = password;
+    }
+
+    public String getRolesToString() {
+        StringBuilder roleNames = new StringBuilder();
+        for (Role role : getRoles()) {
+            roleNames.append(role.getName().replace("ROLE_", ""))
+                    .append(", ");
+        }
+        return roleNames.toString()
+                .replaceAll(", $", "");
     }
 
     public Set<Role> getRoles() {
@@ -102,12 +116,43 @@ public class User {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
+
 
 }

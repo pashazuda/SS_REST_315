@@ -9,6 +9,7 @@ import ru.zudkin.springsec.SS.model.User;
 import ru.zudkin.springsec.SS.repository.UserRepository;
 
 
+
 import java.util.Optional;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -21,6 +22,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if (user.isEmpty())
             throw new UsernameNotFoundException("User not found!");
 
-        return new UserDetailsImpl(user.get());
+        return new org.springframework.security.core.userdetails.User(user.get().getEmail(),
+                user.get().getPassword(), user.get().getAuthorities());
     }
 }
