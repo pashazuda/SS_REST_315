@@ -25,19 +25,16 @@ public class User implements UserDetails {
     private String lastName;
 
     @Min(value = 0, message = "Age should be greater than zero")
-    @Column(name = "age")
     private int age;
 
     @Email(message = "Email should be valid")
     @NotEmpty(message = "Email should not be empty")
-    @Column(name = "email")
     private String email;
 
     @NotEmpty(message = "Password should not be empty")
-    @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER,
+    @ManyToMany(fetch = FetchType.LAZY,
             cascade = {CascadeType.MERGE})
     @JoinTable(
             name = "users_roles",

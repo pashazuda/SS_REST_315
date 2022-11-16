@@ -5,9 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import ru.zudkin.springsec.SS.model.Role;
 import ru.zudkin.springsec.SS.model.User;
-import ru.zudkin.springsec.SS.repository.UserRepository;
 import ru.zudkin.springsec.SS.service.RoleService;
 import ru.zudkin.springsec.SS.service.UserService;
 
@@ -19,14 +17,12 @@ import java.security.Principal;
 public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
-    private final UserRepository userRepository;
 
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService, UserRepository userRepository) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
-        this.userRepository = userRepository;
     }
 
     @GetMapping
@@ -37,7 +33,7 @@ public class AdminController {
 
     @GetMapping("/user-page")
     public String showUserPage(Model model, Principal principal) {
-        Integer userId = userRepository.findByEmail(principal.getName()).get().getId();
+        Integer userId = userService.findByEmail(principal.getName()).getId();
         model.addAttribute("user", userService.find(userId));
         return "admin/user-page";
     }

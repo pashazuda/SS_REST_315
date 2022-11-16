@@ -8,6 +8,8 @@ import ru.zudkin.springsec.SS.model.User;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
+
 @Repository
 public class UseDAOImpl implements UserDAO{
 
@@ -41,5 +43,11 @@ public class UseDAOImpl implements UserDAO{
     @Override
     public void delete(int id) {
         entityManager.remove(entityManager.find(User.class, id));
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return entityManager.createQuery("SELECT u FROM User u JOIN FETCH u.roles WHERE u.email=: email", User.class)
+                .setParameter("email", email).getSingleResult();
     }
 }

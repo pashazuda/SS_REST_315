@@ -29,13 +29,13 @@ public class UserServiceImpl implements UserService{
         userDAO.save(user);
     }
 
-    @Transactional
+
     @Override
     public User find(int id) {
         return userDAO.find(id);
     }
 
-    @Transactional
+
     @Override
     public List<User> findAll() {
         return userDAO.findAll();
@@ -53,5 +53,11 @@ public class UserServiceImpl implements UserService{
     public void delete(int id) {
         userDAO.delete(id);
     }
+
+    @Override
+    public User findByEmail(String email) {
+        return userDAO.findByEmail(email);
+    }
+
 
 }

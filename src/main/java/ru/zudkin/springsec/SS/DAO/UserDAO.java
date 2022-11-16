@@ -4,6 +4,7 @@ import ru.zudkin.springsec.SS.model.User;
 
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface UserDAO {
@@ -17,6 +18,6 @@ public interface UserDAO {
 
     public void delete(int id);
 
-
+    User findByEmail(String email);
 
 }
