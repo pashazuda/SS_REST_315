@@ -5,9 +5,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.zudkin.springsec.SS.DAO.RoleDAO;
 import ru.zudkin.springsec.SS.model.Role;
 import ru.zudkin.springsec.SS.model.User;
-import ru.zudkin.springsec.SS.repository.RoleRepository;
 import ru.zudkin.springsec.SS.service.UserService;
 
 import javax.annotation.PostConstruct;
@@ -18,12 +18,12 @@ import java.util.Set;
 @Component
 public class initDB implements ApplicationRunner {
     private final UserService userService;
-    private final RoleRepository roleRepository;
+    private final RoleDAO roleDAO;
 
     @Autowired
-    public initDB(UserService userService, RoleRepository roleRepository) {
+    public initDB(UserService userService, RoleDAO roleDAO) {
         this.userService = userService;
-        this.roleRepository = roleRepository;
+        this.roleDAO = roleDAO;
     }
 
     @Override
@@ -33,11 +33,11 @@ public class initDB implements ApplicationRunner {
 
 //        roleUser.setId(2);
         roleUser.setName("ROLE_USER");
-        roleRepository.save(roleUser);
+        roleDAO.save(roleUser);
 
 //        roleAdmin.setId(1);
         roleAdmin.setName("ROLE_ADMIN");
-        roleRepository.save(roleAdmin);
+        roleDAO.save(roleAdmin);
 
 
         User admin = new User();
@@ -59,7 +59,7 @@ public class initDB implements ApplicationRunner {
         user.setFirstName("userFirstName");
         user.setLastName("userLastName");
         user.setAge(22);
-        admin.setEmail("user@mail");
+        user.setEmail("user@mail");
         user.setPassword("user");
         user.setRoles(userRoles);
         userService.save(user);
