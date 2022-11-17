@@ -28,4 +28,16 @@ public class RoleDAOImpl implements RoleDAO{
     public void save(Role role) {
         entityManager.persist(role);
     }
+    @Transactional
+    @Override
+    public Role getRoleByName(String role) {
+        System.out.println(role);
+        if (role.equals("ADMIN")) {
+            role = "ROLE_ADMIN";
+        } else if (role.equals("USER")) {
+            role = "ROLE_USER";
+        }
+        return entityManager.createQuery("FROM Role r WHERE r.name=:role", Role.class)
+                .setParameter("role", role).getSingleResult();
+    }
 }

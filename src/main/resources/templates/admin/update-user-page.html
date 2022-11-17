@@ -27,8 +27,11 @@
   <input type="password" th:field="*{password}" id="password"/>
   <br/>
   <select multiple th:field="*{roles}" id="roles">
-    <option th:each="role : ${roles}" th:value="${role.getId()}" th:text="${role.getName()}">
-    </option>
+    <div th:each="role : ${roles}">
+      <option th:value="${role.name}"
+              th:text="${role.name}" name="roles">
+      </option>
+    </div>
   </select>
   <br/>
   <input type="submit" value="Edit"/>

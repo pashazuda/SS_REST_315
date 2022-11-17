@@ -5,12 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.zudkin.springsec.SS.model.Role;
 import ru.zudkin.springsec.SS.model.User;
 import ru.zudkin.springsec.SS.service.RoleService;
 import ru.zudkin.springsec.SS.service.UserService;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/admin")
@@ -47,10 +50,13 @@ public class AdminController {
 
     @PostMapping()
     public String create(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult) {
+                         @ModelAttribute("roles") String role, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "admin/create-user-page";
         }
+        Set<Role> roles= new HashSet<>();
+        roles.add(roleService.getRoleByName(role));
+        user.setRoles(roles);
         userService.save(user);
         return "redirect:/admin";
     }
@@ -63,11 +69,14 @@ public class AdminController {
     }
 
     @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
+    public String update(@ModelAttribute("user") @Valid User user, @ModelAttribute("roles") String role, BindingResult bindingResult,
                          @PathVariable("id") int id) {
         if (bindingResult.hasErrors()) {
             return "admin/update-user-page";
         }
+        Set<Role> roles= new HashSet<>();
+        roles.add(roleService.getRoleByName(role));
+        user.setRoles(roles);
         userService.update(id, user);
         return "redirect:/admin";
     }
