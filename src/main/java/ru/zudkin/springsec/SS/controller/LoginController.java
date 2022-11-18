@@ -12,7 +12,7 @@ public class LoginController {
 
     @GetMapping(value = "/login")
     public String login() {
-        return "auth/login";
+        return "login";
     }
 
     @GetMapping("/logout")

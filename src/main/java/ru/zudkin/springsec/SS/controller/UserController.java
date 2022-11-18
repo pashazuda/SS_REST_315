@@ -25,7 +25,7 @@ public class UserController {
     public String showUserPage(Model model, Principal principal) {
         Integer userId = userService.findByEmail(principal.getName()).getId();
         model.addAttribute("user", userService.find(userId));
-        return "user/user-page";
+        return "user";
     }
 
 }

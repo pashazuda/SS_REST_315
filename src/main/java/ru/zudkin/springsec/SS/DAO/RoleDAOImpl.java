@@ -30,14 +30,8 @@ public class RoleDAOImpl implements RoleDAO{
     }
     @Transactional
     @Override
-    public Role getRoleByName(String role) {
-        System.out.println(role);
-        if (role.equals("ADMIN")) {
-            role = "ROLE_ADMIN";
-        } else if (role.equals("USER")) {
-            role = "ROLE_USER";
-        }
-        return entityManager.createQuery("FROM Role r WHERE r.name=:role", Role.class)
-                .setParameter("role", role).getSingleResult();
+    public Role getRoleByName(String name) {
+        return entityManager.createQuery("FROM Role r WHERE r.name=:name", Role.class)
+                .setParameter("name", name).getSingleResult();
     }
 }

@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping
 public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
@@ -28,60 +28,32 @@ public class AdminController {
         this.roleService = roleService;
     }
 
-    @GetMapping
-    public String index(Model model) {
+    @GetMapping("/admin")
+    public String index(Model model, Principal principal, @ModelAttribute ("user") User user) {
+        Integer id = userService.findByEmail(principal.getName()).getId();
         model.addAttribute("users", userService.findAll());
-        return "admin/admin-page";
-    }
-
-    @GetMapping("/user-page")
-    public String showUserPage(Model model, Principal principal) {
-        Integer userId = userService.findByEmail(principal.getName()).getId();
-        model.addAttribute("user", userService.find(userId));
-        return "admin/user-page";
-    }
-
-
-    @GetMapping("/create-user")
-    public String newUser(@ModelAttribute("user") User user, Model model) {
-        model.addAttribute("roles", roleService.getRoles());
-        return "admin/create-user-page";
-    }
-
-    @PostMapping()
-    public String create(@ModelAttribute("user") @Valid User user,
-                         @ModelAttribute("roles") String role, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "admin/create-user-page";
-        }
-        Set<Role> roles= new HashSet<>();
-        roles.add(roleService.getRoleByName(role));
-        user.setRoles(roles);
-        userService.save(user);
-        return "redirect:/admin";
-    }
-
-    @GetMapping("/{id}/update-user")
-    public String edit(Model model, @PathVariable("id") int id) {
         model.addAttribute("user", userService.find(id));
-        model.addAttribute("roles", roleService.getRoles());
-        return "admin/update-user-page";
+        model.addAttribute("rolesList", roleService.getRoles());
+        model.addAttribute("newUser", new User());
+        return "admin";
     }
 
-    @PatchMapping("/{id}")
-    public String update(@ModelAttribute("user") @Valid User user, @ModelAttribute("roles") String role, BindingResult bindingResult,
-                         @PathVariable("id") int id) {
-        if (bindingResult.hasErrors()) {
-            return "admin/update-user-page";
-        }
-        Set<Role> roles= new HashSet<>();
-        roles.add(roleService.getRoleByName(role));
-        user.setRoles(roles);
-        userService.update(id, user);
+    @PostMapping("/create-new-user")
+    public String create(@ModelAttribute("user") User user,
+                         @RequestParam("roles") String[] roles) {
+        userService.save(user, roles);
         return "redirect:/admin";
     }
 
-    @GetMapping("/delete-user/{id}")
+
+    @PatchMapping("/user-update/{id}")
+    public String update(User user, @RequestParam("roles") String[] roles,
+                         @PathVariable("id") int id) {
+        userService.update(id, user, roles);
+        return "redirect:/admin";
+    }
+
+    @DeleteMapping("/user-delete/{id}")
     public String delete(@PathVariable("id") int id) {
         userService.delete(id);
         return "redirect:/admin";

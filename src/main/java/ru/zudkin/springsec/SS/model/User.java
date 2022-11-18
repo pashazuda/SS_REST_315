@@ -58,10 +58,10 @@ public class User implements UserDetails {
         StringBuilder roleNames = new StringBuilder();
         for (Role role : getRoles()) {
             roleNames.append(role.getName().replace("ROLE_", ""))
-                    .append(", ");
+                    .append(" ");
         }
         return roleNames.toString()
-                .replaceAll(", $", "");
+                .replaceAll(" $", "");
     }
 
     public Set<Role> getRoles() {
