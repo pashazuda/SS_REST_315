@@ -16,7 +16,7 @@ public class UseDAOImpl implements UserDAO{
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Transactional
+
     @Override
     public void save(User user) {
         entityManager.persist(user);
@@ -33,13 +33,13 @@ public class UseDAOImpl implements UserDAO{
         return entityManager.createQuery("from User", User.class).getResultList();
     }
 
-    @Transactional
+
     @Override
     public void update(int id, User user) {
         entityManager.merge(user);
     }
 
-    @Transactional
+
     @Override
     public void delete(int id) {
         entityManager.remove(entityManager.find(User.class, id));

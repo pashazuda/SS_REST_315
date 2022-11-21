@@ -16,25 +16,19 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotEmpty(message = "First name should not be empty")
     @Column(name = "first_name")
     private String firstName;
 
-    @NotEmpty(message = "Last name should not be empty")
     @Column(name = "last_name")
     private String lastName;
 
-    @Min(value = 0, message = "Age should be greater than zero")
     private int age;
 
-    @Email(message = "Email should be valid")
-    @NotEmpty(message = "Email should not be empty")
     private String email;
 
-    @NotEmpty(message = "Password should not be empty")
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn (name = "user_id"),

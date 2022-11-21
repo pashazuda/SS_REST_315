@@ -23,12 +23,13 @@ public class RoleDAOImpl implements RoleDAO{
     public List<Role> getRoles() {
         return entityManager.createQuery("from Role", Role.class).getResultList();
     }
-    @Transactional
+
+    @Transactional // оставил, так использую только в классе инициализации, в сервис не вижу смысла добавлять
     @Override
     public void save(Role role) {
         entityManager.persist(role);
     }
-    @Transactional
+
     @Override
     public Role getRoleByName(String name) {
         return entityManager.createQuery("FROM Role r WHERE r.name=:name", Role.class)
