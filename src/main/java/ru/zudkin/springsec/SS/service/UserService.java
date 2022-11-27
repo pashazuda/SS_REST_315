@@ -1,13 +1,14 @@
 package ru.zudkin.springsec.SS.service;
 
+import ru.zudkin.springsec.SS.model.Role;
 import ru.zudkin.springsec.SS.model.User;
 
 
 import java.util.List;
+import java.util.Set;
 
 
 public interface UserService {
-    public void save(User user, String[] roles);
 
     public void save(User user);
 
@@ -15,7 +16,7 @@ public interface UserService {
 
     public List<User> findAll();
 
-    public void update(int id, User user, String[] roles);
+    void update(User user);
 
     public void delete(int id);
 

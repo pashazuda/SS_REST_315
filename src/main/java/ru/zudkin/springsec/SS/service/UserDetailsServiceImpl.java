@@ -8,14 +8,11 @@ import org.springframework.stereotype.Component;
 import ru.zudkin.springsec.SS.DAO.UserDAO;
 import ru.zudkin.springsec.SS.model.User;
 
-
-
-
-import java.util.Optional;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private UserDAO userDAO;
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

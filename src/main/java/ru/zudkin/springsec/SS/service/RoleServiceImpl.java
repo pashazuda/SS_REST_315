@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.zudkin.springsec.SS.DAO.RoleDAO;
 import ru.zudkin.springsec.SS.model.Role;
 
+import javax.transaction.Transactional;
 import java.util.List;
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -19,6 +20,12 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> getRoles() {
         return roleDAO.getRoles();
+    }
+
+    @Transactional
+    @Override
+    public void save(Role role) {
+        roleDAO.save(role);
     }
 
 }

@@ -1,16 +1,15 @@
-package ru.zudkin.springsec.SS.init;
+package ru.zudkin.springsec.SS.utill;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import ru.zudkin.springsec.SS.DAO.RoleDAO;
 import ru.zudkin.springsec.SS.model.Role;
 import ru.zudkin.springsec.SS.model.User;
+import ru.zudkin.springsec.SS.service.RoleService;
 import ru.zudkin.springsec.SS.service.UserService;
 
-import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,12 +17,13 @@ import java.util.Set;
 @Component
 public class initDB implements ApplicationRunner {
     private final UserService userService;
-    private final RoleDAO roleDAO;
+
+    private final RoleService roleService;
 
     @Autowired
-    public initDB(UserService userService, RoleDAO roleDAO) {
+    public initDB(UserService userService,RoleService roleService) {
         this.userService = userService;
-        this.roleDAO = roleDAO;
+        this.roleService = roleService;
     }
 
     @Override
@@ -33,11 +33,11 @@ public class initDB implements ApplicationRunner {
 
 //        roleUser.setId(2);
         roleUser.setName("ROLE_USER");
-        roleDAO.save(roleUser);
+        roleService.save(roleUser);
 
 //        roleAdmin.setId(1);
         roleAdmin.setName("ROLE_ADMIN");
-        roleDAO.save(roleAdmin);
+        roleService.save(roleAdmin);
 
 
         User admin = new User();

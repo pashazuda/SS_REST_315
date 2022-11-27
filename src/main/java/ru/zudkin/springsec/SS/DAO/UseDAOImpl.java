@@ -1,5 +1,6 @@
 package ru.zudkin.springsec.SS.DAO;
 
+import org.hibernate.sql.Update;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.zudkin.springsec.SS.model.User;
@@ -19,7 +20,11 @@ public class UseDAOImpl implements UserDAO{
 
     @Override
     public void save(User user) {
+//        user.getRoles().forEach(role -> {
+//            role.setUser(user);
+//        });
         entityManager.persist(user);
+//        entityManager.flush();
     }
 
     @Override
@@ -35,7 +40,7 @@ public class UseDAOImpl implements UserDAO{
 
 
     @Override
-    public void update(int id, User user) {
+    public void update(User user) {
         entityManager.merge(user);
     }
 

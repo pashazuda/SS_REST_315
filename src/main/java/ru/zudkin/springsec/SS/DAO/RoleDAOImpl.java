@@ -24,7 +24,7 @@ public class RoleDAOImpl implements RoleDAO{
         return entityManager.createQuery("from Role", Role.class).getResultList();
     }
 
-    @Transactional // оставил, так использую только в классе инициализации, в сервис не вижу смысла добавлять
+
     @Override
     public void save(Role role) {
         entityManager.persist(role);

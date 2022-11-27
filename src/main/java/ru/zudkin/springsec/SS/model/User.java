@@ -1,5 +1,6 @@
 package ru.zudkin.springsec.SS.model;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -9,6 +10,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import java.util.Collection;
 import java.util.Set;
+
+import static org.hibernate.annotations.CascadeType.*;
 
 @Entity
 @Table(name = "users")
@@ -28,12 +31,13 @@ public class User implements UserDetails {
 
     private String password;
 
-    @ManyToMany
+    @ManyToMany()
     @JoinTable(
             name = "users_roles",
-            joinColumns = @JoinColumn (name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
+            joinColumns = @JoinColumn (name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
+
     private Set<Role> roles;
 
     public User() {
@@ -143,6 +147,8 @@ public class User implements UserDetails {
     public void setPassword(String password) {
         this.password = password;
     }
+
+
 
 
 }

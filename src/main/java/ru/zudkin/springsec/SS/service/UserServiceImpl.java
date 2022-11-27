@@ -14,6 +14,7 @@ import ru.zudkin.springsec.SS.model.User;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -32,19 +33,15 @@ public class UserServiceImpl implements UserService{
 
 
     @Transactional
-    @Override
-    public void save(User user, String[] roles) {
-        Set<Role> roleSet = new HashSet<>();
-        for (String role : roles) {
-            roleSet.add(roleDAO.getRoleByName(role));
-        }
-        user.setRoles(roleSet);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDAO.save(user);
-    }
-
-    @Transactional
     public void save(User user) {
+        Set<Role> roleSet = new HashSet<>();
+        user.getRoles().forEach(role -> {
+            Role roleByName = roleDAO.getRoleByName(role.getName());
+            roleByName.getUsers().add(user);
+            roleDAO.save(roleByName);
+            roleSet.add(roleByName);
+        });
+        user.setRoles(roleSet);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDAO.save(user);
     }
@@ -63,14 +60,17 @@ public class UserServiceImpl implements UserService{
 
     @Transactional
     @Override
-    public void update(int id, User user, String[] roles) {
+    public void update(User user) {
         Set<Role> roleSet = new HashSet<>();
-        for (String role : roles) {
-            roleSet.add(roleDAO.getRoleByName(role));
-        }
+        user.getRoles().forEach(role -> {
+            Role roleByName = roleDAO.getRoleByName(role.getName());
+            roleByName.getUsers().add(user);
+            roleDAO.save(roleByName);
+            roleSet.add(roleByName);
+        });
         user.setRoles(roleSet);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDAO.update(id, user);
+        userDAO.update(user);
     }
 
     @Transactional
@@ -81,6 +81,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User findByEmail(String email) {
+        System.out.println(email);
         return userDAO.findByEmail(email);
     }
 

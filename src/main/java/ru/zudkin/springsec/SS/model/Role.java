@@ -1,9 +1,13 @@
 package ru.zudkin.springsec.SS.model;
 
+import org.hibernate.annotations.Cascade;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
+
+import static org.hibernate.annotations.CascadeType.*;
 
 @Entity
 @Table(name = "roles")
@@ -14,9 +18,10 @@ public class Role implements GrantedAuthority {
     private Integer id;
 
     private String name;
+
     @Transient
     @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
 
     public Role() {
     }
@@ -58,7 +63,17 @@ public class Role implements GrantedAuthority {
         return getName();
     }
 
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", users=" + users +
+                '}';
+    }
 
-
+//    public void setUser(User user) {
+//        users.add(user);
+//    }
 
 }
