@@ -1,25 +1,23 @@
 package ru.zudkin.springsec.SS.service;
 
-import ru.zudkin.springsec.SS.model.Role;
-import ru.zudkin.springsec.SS.model.User;
+import ru.zudkin.springsec.SS.dto.UserDTO;
 
 
 import java.util.List;
-import java.util.Set;
 
 
 public interface UserService {
 
-    public void save(User user);
+    public void save(UserDTO userDTO);
 
-    public User find(int id);
+    public UserDTO find(int id);
 
-    public List<User> findAll();
+    public List<UserDTO> findAll();
 
-    void update(User user);
+    void update(UserDTO userDTO);
 
     public void delete(int id);
 
-    public User findByEmail(String email);
+    public UserDTO findByEmail(String email);
 
 }

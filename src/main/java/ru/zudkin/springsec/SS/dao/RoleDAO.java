@@ -1,4 +1,4 @@
-package ru.zudkin.springsec.SS.DAO;
+package ru.zudkin.springsec.SS.dao;
 
 import ru.zudkin.springsec.SS.model.Role;
 

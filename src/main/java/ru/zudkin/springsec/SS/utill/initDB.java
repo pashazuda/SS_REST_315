@@ -1,10 +1,11 @@
 package ru.zudkin.springsec.SS.utill;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-import ru.zudkin.springsec.SS.DAO.RoleDAO;
+import ru.zudkin.springsec.SS.dto.UserDTO;
 import ru.zudkin.springsec.SS.model.Role;
 import ru.zudkin.springsec.SS.model.User;
 import ru.zudkin.springsec.SS.service.RoleService;
@@ -20,10 +21,13 @@ public class initDB implements ApplicationRunner {
 
     private final RoleService roleService;
 
+    private final ModelMapper modelMapper;
+
     @Autowired
-    public initDB(UserService userService,RoleService roleService) {
+    public initDB(UserService userService, RoleService roleService, ModelMapper modelMapper) {
         this.userService = userService;
         this.roleService = roleService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -50,7 +54,7 @@ public class initDB implements ApplicationRunner {
         admin.setEmail("admin@mail");
         admin.setPassword("admin");
         admin.setRoles(adminRoles);
-        userService.save(admin);
+        userService.save(convertUserToUserDto(admin));
 
         User user = new User();
         Set<Role> userRoles = new HashSet<>();
@@ -62,6 +66,10 @@ public class initDB implements ApplicationRunner {
         user.setEmail("user@mail");
         user.setPassword("user");
         user.setRoles(userRoles);
-        userService.save(user);
+        userService.save(convertUserToUserDto(user));
+    }
+
+    private UserDTO convertUserToUserDto(User user) {
+        return modelMapper.map(user, UserDTO.class);
     }
 }

@@ -1,4 +1,4 @@
-package ru.zudkin.springsec.SS.DTO;
+package ru.zudkin.springsec.SS.dto;
 
 public class RoleDTO {
     private String name;
@@ -10,10 +10,4 @@ public class RoleDTO {
     public void setName(String name) {
         this.name = name;
     }
-
-//    public String getRoleName() {
-//        return name.replace("ROLE_", "");
-//    }
-
-
 }

@@ -1,15 +1,12 @@
-package ru.zudkin.springsec.SS.DAO;
+package ru.zudkin.springsec.SS.dao;
 
-import org.hibernate.sql.Update;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.zudkin.springsec.SS.model.User;
 
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class UseDAOImpl implements UserDAO{

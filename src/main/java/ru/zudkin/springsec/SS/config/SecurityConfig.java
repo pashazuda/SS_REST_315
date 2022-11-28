@@ -45,20 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().logout()
                 .permitAll();
 
-//        // авторизация
-//        http.authorizeRequests()
-//                .antMatchers("/login", "/login/register", "/error").permitAll()
-//                        .anyRequest().authenticated();
-//        // форма для логина
-//        http.formLogin().loginPage("/login")
-//                .loginProcessingUrl("/process_login")
-//                .defaultSuccessUrl("/users", true)
-//                .failureUrl("/login?error");
-//
-//        // Конфигурация логаута
-//        http.logout().logoutUrl("/logout").logoutSuccessUrl("/login");
-
-
     }
 
     // Настраивает аутентификацию

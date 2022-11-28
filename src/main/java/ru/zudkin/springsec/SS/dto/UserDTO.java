@@ -1,4 +1,4 @@
-package ru.zudkin.springsec.SS.DTO;
+package ru.zudkin.springsec.SS.dto;
 
 import java.util.Set;
 

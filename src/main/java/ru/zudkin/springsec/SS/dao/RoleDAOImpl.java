@@ -1,10 +1,8 @@
-package ru.zudkin.springsec.SS.DAO;
+package ru.zudkin.springsec.SS.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.zudkin.springsec.SS.model.Role;
-import ru.zudkin.springsec.SS.model.User;
 
 import javax.persistence.EntityManager;
 import java.util.List;

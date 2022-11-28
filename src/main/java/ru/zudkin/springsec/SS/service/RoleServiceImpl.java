@@ -2,7 +2,7 @@ package ru.zudkin.springsec.SS.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.zudkin.springsec.SS.DAO.RoleDAO;
+import ru.zudkin.springsec.SS.dao.RoleDAO;
 import ru.zudkin.springsec.SS.model.Role;
 
 import javax.transaction.Transactional;
